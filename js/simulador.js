@@ -23,6 +23,7 @@ listaProductos.push(producto4)
 listaProductos.push(producto5)
 
 let carrito = []
+let totalCompra = []
 
 const contenedorProductos = document.getElementById("contenedor-productos")
 const contenedorCarrito = document.getElementById("carrito-contenedor")
@@ -55,11 +56,15 @@ listaProductos.forEach((producto) => {
     
 })
 
+
 const agregarAlCarrito = (prodId) =>{
     const item = listaProductos.find((prod) => prod.id === prodId)
     carrito.push(item)
+    totalCompra.push(item.precio)
+    total()
     actualizarCarrito()
     console.log(carrito)
+    console.log(totalCompra)
 }
 
 const eliminarDelCarrito = (prodId) =>{
@@ -67,7 +72,7 @@ const eliminarDelCarrito = (prodId) =>{
     const indice = carrito.indexOf(item)
     carrito.splice(indice, 1)
     actualizarCarrito()
-    }
+}
 
 
 const actualizarCarrito = () => {
@@ -79,8 +84,16 @@ const actualizarCarrito = () => {
         div.innerHTML = `
         <td>${prod.nombre}</td>
         <td>$${prod.precio} </td>
-        <button onclick = "eliminarDelCarrito(${prod.id})" class="btn btn-primary"> Eliminar del Carrito </button>
+        <button onclick = "eliminarDelCarrito(${prod.id})" class="btn btn-primary"> <span>Eliminar del Carrito</span></button>
         `
         contenedorCarrito.appendChild(div)
     })
 }
+
+function total(){
+    const precioTotal = document.getElementById(`precioTotal`)
+    const total = totalCompra.reduce((acc, elemento) => acc + elemento, 0)
+    console.log(total)
+    precioTotal.innerText = total
+}
+
